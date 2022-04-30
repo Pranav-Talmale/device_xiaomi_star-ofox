@@ -15,6 +15,6 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE),haydn)
+ifeq ($(TARGET_DEVICE),star)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 endif

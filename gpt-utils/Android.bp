@@ -34,6 +34,9 @@ cc_library {
         "recovery-ufs-bsg.cpp",
     ],
     owner: "qti",
-    export_include_dirs: ["."],
+    header_libs: [
+        "generated_kernel_headers",
+    ],
+	export_include_dirs: ["."],
 }
 

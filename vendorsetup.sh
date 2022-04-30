@@ -17,7 +17,7 @@
 #
 # 	Please maintain this if you use this script or any part of it
 #
-FDEVICE="haydn"
+FDEVICE="star"
 
 fox_get_target_device() {
 local chkdev=$(echo "$BASH_SOURCE" | grep -w $FDEVICE)
@@ -34,71 +34,57 @@ if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
 fi
 
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
-        #Language
+	export OF_USE_GREEN_LED=0
+    export FOX_ENABLE_APP_MANAGER=0
    	export TW_DEFAULT_LANGUAGE="en"
-
-   	#Building
-        export FOX_MANIFEST_VER="11.0"
-	export OF_TARGET_DEVICES="haydnin,haydn"
-	export TARGET_DEVICE_ALT="haydnin"
-	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER="1"
-	export CCACHE_DIR=$HOME/ccache
-	export USE_CCACHE=1
-	export CCACHE_EXEC=/usr/bin/ccache
-
-        #Debug
-        export FOX_INSTALLER_DEBUG_MODE="1"
-
-        #Binaries
+	export LC_ALL="C"
+ 	export ALLOW_MISSING_DEPENDENCIES=true
+	export OF_TARGET_DEVICES="star"
+	export OF_VIRTUAL_AB_DEVICE=1
+	export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
+	export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
+	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
+	export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
+	export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
 	export FOX_USE_BASH_SHELL=1
 	export FOX_ASH_IS_BASH=1
-	export FOX_USE_NANO_EDITOR=1
 	export FOX_USE_TAR_BINARY=1
-	export FOX_USE_ZIP_BINARY=1
 	export FOX_USE_SED_BINARY=1
 	export FOX_USE_XZ_UTILS=1
-	export FOX_REPLACE_BUSYBOX_PS=1
+	export OF_ENABLE_LPTOOLS=1
+	export FOX_USE_NANO_EDITOR=1
+    export OF_QUICK_BACKUP_LIST="/boot;/data;"
+    export FOX_DELETE_AROMAFM=1
+    export FOX_BUGGED_AOSP_ARB_WORKAROUND="1616300800"; # Sun 21 Mar 04:26:40 GMT 2021
 
-        #Magisk
-	export FOX_USE_SPECIFIC_MAGISK_ZIP="/home/android/Magisk/Magisk.zip"
-
-	#Magiskboot
-	export OF_USE_MAGISKBOOT="1"
-	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES="1"
-	export OF_AB_DEVICE="1"
-
-        # OTA & MIUI
-        export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES="1"
-        export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR="1"
-        export OF_NO_MIUI_PATCH_WARNING="1"
-        export OF_DONT_PATCH_ENCRYPTED_DEVICE="1"
-        export OF_NO_TREBLE_COMPATIBILITY_CHECK="1"
-        export OF_PATCH_AVB20="1"
+	# use magisk 24.3 for the magisk addon
+	export FOX_USE_SPECIFIC_MAGISK_ZIP=~/Magisk/Magisk-v24.3.zip
 
 	# screen settings
 	export OF_SCREEN_H=2400
 	export OF_STATUS_H=100
 	export OF_STATUS_INDENT_LEFT=48
 	export OF_STATUS_INDENT_RIGHT=48
-	export OF_CLOCK_POS="1"
+  	export OF_HIDE_NOTCH=1
+	export OF_CLOCK_POS=1
+	
+	#OTA and miui
+	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES="1"
+    export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR="1"
+    export OF_NO_MIUI_PATCH_WARNING="1"
+    export OF_DONT_PATCH_ENCRYPTED_DEVICE="1"
+    export OF_NO_TREBLE_COMPATIBILITY_CHECK="1"
+    export OF_PATCH_AVB20="1"
 
-	#Partitions
-	export OF_VIRTUAL_AB_DEVICE="1"
+	# maximum permissible splash image size (in kilobytes)
+	#export OF_SPLASH_MAX_SIZE=2048
 
-        #Features
-        export OF_USE_GREEN_LED="0"
+	# ensure that /sdcard is bind-unmounted before f2fs data repair or format
+	export OF_UNBIND_SDCARD_F2FS=1
 
-        #Maintainer Stuff
-        export OF_MAINTAINER="Eef"
-        export FOX_VERSION="R11.1_0"
+	# instruct magiskboot v24+ to always patch the vbmeta header when patching the recovery/boot image
+    #export OF_PATCH_VBMETA_FLAG="1"
 
-	# -- add settings for R11 --
-	export OF_USE_TWRP_SAR_DETECT=1
-	export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
-	# -- end R11 settings 
-
-	# run a process after formatting data to work-around MTP issues
-	# export OF_RUN_POST_FORMAT_PROCESS="1"   disabling this since it causes issues with a12 decryption
 
 	# let's see what are our build VARs
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then

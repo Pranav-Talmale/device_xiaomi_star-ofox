@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/xiaomi/haydn
+DEVICE_PATH := device/xiaomi/star
 
 # Inherit from common AOSP config
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
@@ -53,8 +53,12 @@ AB_OTA_POSTINSTALL_CONFIG += \
     
 # Boot control
 PRODUCT_PACKAGES += \
-    bootctrl.lahaina.recovery \
+    android.hardware.boot@1.1-impl-qti \
     android.hardware.boot@1.1-impl-qti.recovery \
+    android.hardware.boot@1.1-service \
+    bootctrl.lahaina \
+    bootctrl.lahaina.recovery
+
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -77,7 +81,7 @@ PRODUCT_SOONG_NAMESPACES += \
 TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko fts_touch_spi.ko focaltech_touch.ko adsp_loader_dlkm.ko qti_battery_charger.ko"
 
 PRODUCT_COPY_FILES += \
-    $(OUT_DIR)/target/product/haydn/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
+    $(OUT_DIR)/target/product/star/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
     
 # OEM otacert
 PRODUCT_EXTRA_RECOVERY_KEYS += \
