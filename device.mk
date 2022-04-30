@@ -90,7 +90,6 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH) \
     vendor/qcom/opensource/commonsys-intf/display
 
 TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko fts_touch_spi.ko focaltech_touch.ko adsp_loader_dlkm.ko qti_battery_charger.ko"
