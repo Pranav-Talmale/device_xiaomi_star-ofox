@@ -30,20 +30,21 @@ TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := \
-    androidboot.console=ttyMSM0 \
-    androidboot.hardware=qcom \
-    androidboot.memcg=1 \
-    androidboot.usbcontroller=a600000.dwc3 \
-    cgroup.memory=nokmem,nosocket \
-    console=ttyMSM0,115200n8 \
-    earlycon=msm_geni_serial,0xa90000 \
-    firmware_class.path=/vendor/firmware \
-    lpm_levels.sleep_disabled=1 \
-    msm_rtb.filter=0x237 \
-    service_locator.enable=1 \
-    swiotlb=0 \
-    video=vfb:640x400,bpp=32,memsize=3072000
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 \
+                        androidboot.hardware=qcom \
+                        androidboot.console=ttyMSM0 \ 
+                        androidboot.memcg=1 \
+                        lpm_levels.sleep_disabled=1 \
+                        video=vfb:640x400,bpp=32,memsize=3072000 \
+                        msm_rtb.filter=0x237 \
+                        service_locator.enable=1 \
+                        androidboot.usbcontroller=a600000.dwc3 \
+                        swiotlb=0 \
+                        loop.max_part=7 \
+                        cgroup.memory=nokmem,nosocket \
+                        pcie_ports=compat \
+                        iptable_raw.raw_before_defrag=1 \
+                        ip6table_raw.raw_before_defrag=1
 
 BOARD_KERNEL_IMAGE_NAME := kernel
 BOARD_KERNEL_PAGESIZE := 4096
@@ -65,7 +66,8 @@ BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
 
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 
 # Platform
 TARGET_BOARD_PLATFORM := lahaina
@@ -101,9 +103,9 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
 BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
-TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
@@ -112,19 +114,7 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_USES_RECOVERY_AS_BOOT := true
 TARGET_NO_RECOVERY := true
-TARGET_RECOVERY_DEVICE_MODULES += \
-    libandroidicu \
-    libdisplayconfig.qti \
-    libion \
-    vendor.display.config@1.0 \
-    vendor.display.config@2.0 \
-    libdisplayconfig.qti
-
-RECOVERY_LIBRARY_SOURCE_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true
@@ -154,7 +144,6 @@ TW_INCLUDE_LIBRESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 
 # TWRP Configuration
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TW_NO_SCREEN_BLANK := true
 TW_THEME := portrait_hdpi
 RECOVERY_SDCARD_ON_DATA := true
@@ -173,4 +162,4 @@ TARGET_USES_LOGD := true
 TARGET_USES_MKE2FS := true
 TW_EXCLUDE_APEX := true
 TW_INCLUDE_CRYPTO := true
-
+#
